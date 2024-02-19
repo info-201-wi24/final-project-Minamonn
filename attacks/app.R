@@ -20,17 +20,22 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
     # Application title
     "Bear Attacks in North America",
 
-    tabPanel("Home", tags$img(src = 'bear.png', height =50, width = 50), 
+    tabPanel("Home", 
              h2 ("Welcome to statistical Data exploring Bear attacks"),
              p("Through thorough analysis of historical bear attack data, we aim to pinpoint the locations where attacks are most likely, informing the public of potential dangers. Identifying the bear species with the highest
              fatality rates allows for targeted warnings, mitigating the risk of future incidents. This initiative underscores a pressing need to balance human safety with wildlife conservation, particularly concerning bear encounters that can result in severe consequences for individuals and communities alike. The narratives of those affected by bear attacks underscore the urgency of our mission. By contributing to this cause, we seek not only to prevent future
              tragedies but also to honor the memories of those impacted. 
  
 We envision this project as a means to humanize bear attack statistics, fostering empathy and understanding of the risks involved. We aim to educate on the necessity of caution in bear habitats and inspire action toward safer human-bear coexistence. Our project is a step towards a future where humans and bears coexist more safely, emphasizing empowerment and preparedness for those navigating bear territories.", style = "font-size: 18px"),
+             mainPanel(
+               img(src = 'brownbear.jpg', height = 650, width = "auto", align = "left")
+             ),
              h2("This investigation is conducted with key questions to help us obtain information and avoid fatal events:"),
-             p("- Which region has the most amount of bear attacks?
-               - Are there specific geographic location that they attack in?
-               - Who are the usual targets of these attacks?", style = "font-size: 18px")),
+             p(strong("· Which region has the most amount of bear attacks?", style = "font-size: 22px")),
+             p(strong("· Are there specific geographic location that they attack in?", style = "font-size: 22px")),
+             p(strong("· Who are the usual targets of these attacks?", style = "font-size: 22px")),
+             
+             ),
             
              
     # Panel 2
