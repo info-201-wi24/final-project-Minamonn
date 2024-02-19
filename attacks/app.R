@@ -40,7 +40,7 @@ We envision this project as a means to humanize bear attack statistics, fosterin
              
     # Panel 2
     tabPanel("Attacks Across Regions", h2("Bear attacks in Each Regions of North America"), 
-        sidebarPanel(
+        sidebarPanel(img(src = 'bear.png', height = 100, width = "auto", alight = "left"),
             selectInput("region", "Select Region:", state_counts$region, selected = state_counts$region[1], multiple = TRUE)),
         
         # Show a plot of the generated distribution
@@ -83,7 +83,8 @@ server <- function(input, output) {
       filtered_data <- state_counts %>% filter(region %in% input$region)
       
       ggplot(filtered_data, aes(x = region, y = Number_of_attacks, fill = region)) + 
-        geom_bar(stat = "identity") + labs(title = "Numer of Fatal Attacks in Each States from 1901 - 2022", x = "Selected Region", y = "Number of Attacks") + scale_fill_brewer(palette = "Paste1") + scale_y_continuous(breaks = seq(0,40))
+        geom_bar(stat = "identity") + labs(title = "Numer of Fatal Attacks in Each States from 1901 - 2022", x = "Selected Region", y = "Number of Attacks") + 
+        theme(axis.title = element_text(size = 16), axis.text = element_text(size = 12))+ scale_fill_brewer(palette = "Paste1") + scale_y_continuous(breaks = seq(0,40))
     })
 }
 
