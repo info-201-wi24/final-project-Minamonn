@@ -17,20 +17,18 @@ ui <- fluidPage(
     titlePanel("Bear Attacks in North America"),
     
     #Select region
-    selectInput("region", label = "Region 1", choices = state_counts$region, selected = state_counts$region),
-    selectInput("region2", label = "Region 2", choices = state_counts$region, selected = state_counts$region),
-    selectInput("region3", label = "Region 3", choices = state_counts$region, selected = state_counts$region),
     
     #output text
-    textOutput("selected_var"),
+    
     
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
+        sidebarPanel(
+            selectInput("region", "Select Region:", state_counts$region, selected = state_counts$region[1], multiple = TRUE)),
         
-
         # Show a plot of the generated distribution
         mainPanel(
-          plotOutput("plot")
+          plotOutput("barChart")
         )
     )
 )
@@ -39,15 +37,14 @@ ui <- fluidPage(
 server <- function(input, output) {
 
     output$selected_var <- renderText({
-      paste("You have selected", input$region, ",", input$region2, "and", input$region3)
+      paste("You have selected", input$region_name)
     })
     
-    output$plot <- renderPlot({
-      filtered_data <- state_counts %>%
-        filter(region %in% input$region)
-
-      ggplot(state_counts, aes(x = region, y = Number_of_attacks)) + 
-        geom_bar(stat = "identity") + labs(title = "Numer of fatal attacks in each states")
+    output$barChart <- renderPlot({
+      filtered_data <- state_counts %>% filter(region %in% input$region)
+      
+      ggplot(filtered_data, aes(x = region, y = Number_of_attacks, fill = region)) + 
+        geom_bar(stat = "identity") + labs(title = "Numer of fatal attacks in each states", x = "Selected Region", y = "Number of Attacks") + scale_fill_brewer(palette = "Paste1")
     })
 }
 
