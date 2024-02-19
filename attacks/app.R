@@ -19,9 +19,15 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
     # Application title
     "Bear Attacks in North America",
 
-    
-    # Sidebar with a slider input for number of bins 
-    tabPanel("Attacks Across Regions",
+    tabPanel("Home", tags$img(src = "bear.png", height =50, width = 50), 
+             h2 ("Welcome to statistical Data exploring Bear attacks"),
+             p("Through thorough analysis of historical bear attack data, we aim to pinpoint the locations where attacks are most likely, informing the public of potential dangers. Identifying the bear species with the highest fatality rates allows for targeted warnings, mitigating the risk of future incidents. This initiative underscores a pressing need to balance human safety with wildlife conservation, particularly concerning bear encounters that can result in severe consequences for individuals and communities alike. The narratives of those affected by bear attacks underscore the urgency of our mission. By contributing to this cause, we seek not only to prevent future tragedies but also to honor the memories of those impacted. 
+ 
+We envision this project as a means to humanize bear attack statistics, fostering empathy and understanding of the risks involved. We aim to educate on the necessity of caution in bear habitats and inspire action toward safer human-bear coexistence. Our project is a step towards a future where humans and bears coexist more safely, emphasizing empowerment and preparedness for those navigating bear territories.", style = "font-size: 18px")),
+            
+             
+    # Panel 2
+    tabPanel("Attacks Across Regions", h2("Bear attacks in Each Regions of North America"), 
         sidebarPanel(
             selectInput("region", "Select Region:", state_counts$region, selected = state_counts$region[1], multiple = TRUE)),
         
@@ -29,24 +35,44 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
         mainPanel(
           plotOutput("barChart")
           
-        )
+        ),
+        h2("Summary of Attacks"), p("This chart intends to answer the question of which regions are most prom
+                                    inent to have bear attacks since the 1900s. After analyzing the number of bear attack
+                                    s in each region, it is clear that there is a pattern. Regions in the northern part 
+                                    of North America is more prominant to fatal bear attacks. Example of this is shown by
+                                    regions such as Alaska or Alberta where the most common occurances of attacks take place.")
     ),
-    tabPanel("North America Trends", "Not yet")
+    
+    #Panel 3 about the Lat and Long of data
+    tabPanel("North America Trends", 
+             mainPanel(
+                plotOutput("scatterPlot")
+                 
+               )
+             )
+    
   )
 )
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-    output$selected_var <- renderText({
-      paste("You have selected", input$region_name)
+    output$scatterPlot <- renderPlot({
+      ggplot(data = world_shape) +
+        
+        geom_polygon(aes(x = long, y = lat, group = group)) +
+        
+        
+        geom_point(data = Coordinate_and_person_type, aes(x = Longitude, y = Latitude, color = "red")) +
+        
+        coord_map() +labs(title = "Latitude and Longitude of attacks", x = "Longitude", y = "Latitude")
     })
     
     output$barChart <- renderPlot({
       filtered_data <- state_counts %>% filter(region %in% input$region)
       
       ggplot(filtered_data, aes(x = region, y = Number_of_attacks, fill = region)) + 
-        geom_bar(stat = "identity") + labs(title = "Numer of Fatal Attacks in Each States from 1901 - 2022", x = "Selected Region", y = "Number of Attacks") + scale_fill_brewer(palette = "Paste2") + scale_y_continuous(breaks = seq(0,40))
+        geom_bar(stat = "identity") + labs(title = "Numer of Fatal Attacks in Each States from 1901 - 2022", x = "Selected Region", y = "Number of Attacks") + scale_fill_brewer(palette = "Paste1") + scale_y_continuous(breaks = seq(0,40))
     })
 }
 
