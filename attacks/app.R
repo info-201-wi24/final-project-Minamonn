@@ -10,27 +10,29 @@
 library(shiny)
 library(dplyr)
 library(ggplot2)
+library(shinythemes)
+
 # Define UI for application that draws a histogram
-ui <- fluidPage(
+ui <- fluidPage(theme = shinytheme("cerulean"),
+  navbarPage(
 
     # Application title
-    titlePanel("Bear Attacks in North America"),
-    
-    #Select region
-    
-    #output text
-    
+    "Bear Attacks in North America",
+
     
     # Sidebar with a slider input for number of bins 
-    sidebarLayout(
+    tabPanel("Attacks Across Regions",
         sidebarPanel(
             selectInput("region", "Select Region:", state_counts$region, selected = state_counts$region[1], multiple = TRUE)),
         
         # Show a plot of the generated distribution
         mainPanel(
           plotOutput("barChart")
+          
         )
-    )
+    ),
+    tabPanel("North America Trends", "Not yet")
+  )
 )
 
 # Define server logic required to draw a histogram
@@ -44,7 +46,7 @@ server <- function(input, output) {
       filtered_data <- state_counts %>% filter(region %in% input$region)
       
       ggplot(filtered_data, aes(x = region, y = Number_of_attacks, fill = region)) + 
-        geom_bar(stat = "identity") + labs(title = "Numer of fatal attacks in each states", x = "Selected Region", y = "Number of Attacks") + scale_fill_brewer(palette = "Paste1")
+        geom_bar(stat = "identity") + labs(title = "Numer of Fatal Attacks in Each States from 1901 - 2022", x = "Selected Region", y = "Number of Attacks") + scale_fill_brewer(palette = "Paste2") + scale_y_continuous(breaks = seq(0,40))
     })
 }
 
