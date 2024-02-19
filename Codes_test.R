@@ -6,6 +6,8 @@ library(tidyverse)
 library(ggplot2)
 library(maps)
 library(mapproj)
+library(shiny)
+library(ggplot2)
 
 # longitudinal locations for world
 # note the only other option is to use map data for just entire world since our coordinates
@@ -33,7 +35,7 @@ Coordinate_and_person_type <- Coordinate_and_person_type %>% mutate(region = str
 
 # creates a data frame with frequency of bear attacks per region
 # note for future (data frame is not states but regions in NA)
-state_counts <- Coordinate_and_person_type %>% group_by(region) %>% summarise(Number_of_attacks = n())
+state_counts <- Coordinate_and_person_type %>% group_by(region) %>% summarize(Number_of_attacks = n())
 
 # scatter plot of latitude vs longitude
 ggplot(Coordinate_and_person_type) + geom_point(aes(x = Latitude, y = Longitude))

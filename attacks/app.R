@@ -8,26 +8,29 @@
 #
 
 library(shiny)
-
+library(dplyr)
+library(ggplot2)
 # Define UI for application that draws a histogram
 ui <- fluidPage(
 
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
-
+    titlePanel("Bear Attacks in North America"),
+    
+    #Select region
+    selectInput("region", label = "Region 1", choices = state_counts$region, selected = state_counts$region),
+    selectInput("region2", label = "Region 2", choices = state_counts$region, selected = state_counts$region),
+    selectInput("region3", label = "Region 3", choices = state_counts$region, selected = state_counts$region),
+    
+    #output text
+    textOutput("selected_var"),
+    
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
+        
 
         # Show a plot of the generated distribution
         mainPanel(
-           plotOutput("distPlot")
+          plotOutput("plot")
         )
     )
 )
@@ -35,17 +38,20 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
+    output$selected_var <- renderText({
+      paste("You have selected", input$region, ",", input$region2, "and", input$region3)
+    })
+    
+    output$plot <- renderPlot({
+      filtered_data <- state_counts %>%
+        filter(region %in% input$region)
 
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white',
-             xlab = 'Waiting time to next eruption (in mins)',
-             main = 'Histogram of waiting times')
+      ggplot(state_counts, aes(x = region, y = Number_of_attacks)) + 
+        geom_bar(stat = "identity") + labs(title = "Numer of fatal attacks in each states")
     })
 }
+
+
 
 # Run the application 
 shinyApp(ui = ui, server = server)
