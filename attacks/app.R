@@ -56,9 +56,16 @@ We envision this project as a means to humanize bear attack statistics, fosterin
     #Panel 3 about the Lat and Long of data
     tabPanel("North America Trends", 
              mainPanel(
-                plotOutput("scatterPlot")
+                plotOutput("scatterPlot",  height = 900, width = "auto")
                  
-               )
+               ),
+             h2("Summary and Purpose"),
+             p("The dot map illustrates the geographical distribution of bear attacks across North America, with a notable concentration in locations with significant wilderness areas and high bear populations. This spatial analysis complements a chronological analysis conducted from 1837 to 2018, which found that bear attacks are more common in Alaska, Alberta, British Columbia, and Montana. By combining this geographic perspective with historical data, the project aims to raise public awareness and promote safety in bear-infested areas.
+ 
+The project's purpose is to educate the public about high-risk bear encounter regions, the bear species that are often involved, and how to maintain a mutually safe environment for both humans and wildlife. We aim to create an engaging narrative that acknowledges the risks posed by bear interactions while emphasizing our mutual responsibility to safeguard both human and animal communities.", style = "font-size: 22px"),
+ 
+p("We hope that this project will humanize bear attack statistics, going beyond mere numbers to highlight bears and people's shared ecosystems. The overarching objective is to raise awareness and advocate for proactive, preventive ways to reduce the risk of bear attacks, thereby improving the safety of outdoor enthusiasts and sustaining bear populations.
+", style = "font-size: 22px"),
              ),
     tabPanel("Victim Types"),
     tabPanel("Findings and Takeaways")
