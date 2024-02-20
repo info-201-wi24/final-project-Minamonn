@@ -81,8 +81,19 @@ p("We hope that this project will humanize bear attack statistics, going beyond 
              mainPanel(
                 plotOutput("facetChart",  height = 900, width = "auto")
                  
-               )),
-    tabPanel("Takeaways")
+    )),
+    tabPanel("Takeaways"
+             h2 ("Conclusion:"),
+             p("Throughout our analysis of data gathered on bear fatalities, a line can be drawn towards the complex dynamics of interactions between bears and humans. It shows the importance of informed decision-making and precautionary measures that must be taken in regions with high rates of fatalities. By acknowledging these patterns and addressing them through proactive measures, we can walk towards a more safe and environment free of bear-related fatalities. 
+
+              Region Patterns of Bear Attacks: The data compiled highlights clear regional patterns related to bear attacks and fatalities. Through our analysis, we discovered that most deaths occur in the western part of North America, particularly in the northwest region of the continent. Alaska, Alberta, British Columbia, Montana, and Wyoming are hotspots for bear-related fatalities, which shows the prevalence of bear and human interaction in this area.              
+              
+              Gender Disparities in Fatalies: Our data shows that there is a clear and notable gender disparity in bear-related fatalities. While it is shown that males and females are both at risk for encountering bear attacks, males are significantly more likely to die/encounter an attack. The data shows that out of the 18 regions recorded 10 of them recorded only male deaths, which emphasizes the vulnerability of males to such incidents.
+              
+              Frequency of Bear Attacks for Regions: The frequency of bear attacks across regions varies significantly across them. In Canadian and Alaskan regions such as Alaska, Alberta, and British Columbia, they experience the highest frequency of bear attacks, which is evident by the number of reports in these areas. Conversely, in the middle regions of North America, more significantly in the United States, there are lower frequencies of bear attacks.           
+              
+              Implications for Safety Measures:  These findings have significant implications for implementing safety measures and raising awareness in regard to bear attacks. Understanding how the distribution of bear attacks, demographic vulnerabilities, and the frequency of such patterns, can help to inform us where safety measures, should be targeted, in order to mitigate the risks and overall enhance the safety for both humans and bears."))
+            )
   )
 )
 
