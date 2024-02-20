@@ -3,6 +3,31 @@ library(dplyr)
 library(ggplot2)
 library(shinythemes)
 library(leaflet)
+library(stringr)
+world_shape <- map_data("world")
+# Longitudinal locations for bear attacks and descriptions
+bear_coords_df <- read.csv("bear_attacks.csv")
+# NA Region locations for bear attacks and descriptions
+NA_fatal_df <- read.csv("north_america_bear_killings.csv")
+
+# combination of both bear data frames (raw data)
+true_df <- left_join(NA_fatal_df, bear_coords_df, by = "Name")
+
+# cleaned libraries includes only includes basic information
+# excludes data without longitudinal coordinates
+Coordinate_and_person_type <- true_df %>% 
+  select(Name, gender, Year, Latitude, Longitude, Location.x, Type.of.bear, Hunter, Hikers) %>% 
+  filter(!is.na(Latitude)) 
+
+# rounds latitude and longitude 
+Coordinate_and_person_type <- Coordinate_and_person_type %>% mutate(across(c('Latitude', 'Longitude'), round, 1))
+
+# removes unwanted descriptions of region and keeps only region name
+Coordinate_and_person_type <- Coordinate_and_person_type %>% mutate(region = str_replace(Location.x, ".*?,\\s*", ""))
+
+# creates a data frame with frequency of bear attacks per region
+region_counts <- Coordinate_and_person_type %>% group_by(region) %>% summarise(Number_of_attacks = n())
+
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(theme = shinytheme("cerulean"),
@@ -65,7 +90,6 @@ The goal of combining this thorough geographical study with over a century of da
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-  
     
   
   output$scatterPlot <- renderPlot({
