@@ -113,6 +113,10 @@ The goal of combining this thorough geographical study with over a century of da
                   ),
                   tabPanel("Victim Types & Findings",
                            h2("Statistics and Victim Reports"),
+                           mainPanel(
+                             plotOutput("facetChart",  height = 1200, width = 1200)
+                             
+                           ),
                            p("Most deaths occur on the western part of North America, especially in the northwest of the continent.
                 The regions with the highest frequency of bear attacks are located in Canadian and Alaskan regions (Alaska 27, Alberta 17, British Columbia 17, Montana 17).
                 Females are most likely to die in Alaska, Alberta, British Columbia, and Montana.
@@ -121,11 +125,8 @@ The goal of combining this thorough geographical study with over a century of da
                 Males are much more likely to get killed.
                 10 out of 18 regions only have male deaths.
                 About 72% of deaths are male deaths.
-                About 28% of deaths are female deaths.", style = "font-size: 22px"),
-                           mainPanel(
-                             plotOutput("facetChart",  height = 900, width = "auto")
-                             
-                           )),
+                About 28% of deaths are female deaths.", style = "font-size: 22px")
+                           ),
                   tabPanel("Takeaways",
                            h2("Conclusion:"),
                            p("Throughout our analysis of data gathered on bear fatalities, a line can be drawn towards the complex dynamics of interactions between bears and humans. It shows the importance of informed decision-making and precautionary measures that must be taken in regions with high rates of fatalities. By acknowledging these patterns and addressing them through proactive measures, we can walk towards a more safe and environment free of bear-related fatalities.", style = "font-size: 22px"),
