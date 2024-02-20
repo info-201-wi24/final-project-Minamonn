@@ -172,7 +172,8 @@ server <- function(input, output) {
       labs(title = "Female and Males Bear Deaths by Year", x = "Year", y = "Number of Deaths", fill = "Gender") +
       scale_x_continuous(breaks = seq(1901, 2018, 39)) +
       scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
-      facet_wrap(~region) 
+      facet_wrap(~region) +
+      ggplotly(female_male_deaths_by_region)
     })
 }
 
