@@ -112,8 +112,6 @@ The goal of combining this thorough geographical study with over a century of da
 ", style = "font-size: 22px")
              ),
     tabPanel("Victim Types & Findings",
-             mainPanel(
-                plotOutput("facetChart",  height = auto, width = "auto"),
              h2("Statistics and Victim Reports"),
              p("Most deaths occur on the western part of North America, especially in the northwest of the continent.
                 The regions with the highest frequency of bear attacks are located in Canadian and Alaskan regions (Alaska 27, Alberta 17, British Columbia 17, Montana 17).
@@ -123,8 +121,9 @@ The goal of combining this thorough geographical study with over a century of da
                 Males are much more likely to get killed.
                 10 out of 18 regions only have male deaths.
                 About 72% of deaths are male deaths.
-                About 28% of deaths are female deaths.", style = "font-size: 22px")
-             
+                About 28% of deaths are female deaths.", style = "font-size: 22px"),
+             mainPanel(
+                plotOutput("facetChart",  height = 900, width = "auto")
                  
     )),
     tabPanel("Takeaways",
@@ -181,4 +180,3 @@ server <- function(input, output) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
-
