@@ -13,12 +13,6 @@ For the Final Project -- Data Wrangling, add the following to this code reposito
 
 **Link: http://kenatv.shinyapps.io/Bearattacks**
 
-Please create the necessary files for your multi-page Shiny app in this GitHub repository. Consult the Canvas assignment for more details. Be sure to publish your app on Shinyapps.io.
-
-When you are finished, please add the text from your introductory and concluding pages below. You might want to use this GitHub repository as part of your digital portfolio, so you want this README.md to offer a brief description of the project and key takeaways.
-
-Feel free to delete these instructions for your final README.md file and to make your GitHub repository public if you would like others to be able to see it. 
-
 
 # Introduction
 Bear attacks are one of the scariest encounters for normal civilians, although the number of attacks comes to an average of 11 attacks per year in America it is still dangerously fatal. “Alaska has the highest number of bears of any state with 100,000 black bears, 30,000 grizzlies, and between 4,000 – and 7,000 polar bears.” The number of bears alone might not be high and the number of attacks is considered low compared to other animals. However, there are still families that have lost their loved ones due to these attacks, and many more were injured during their encounters. We wish to create a safer environment for both the animals and people, this can be achieved by warning people beforehand that the area they are entering is common with bears and could lead to potential encounters. 
