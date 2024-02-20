@@ -48,7 +48,7 @@ ggplot(data = world_shape) +
   geom_polygon(aes(x = long, y = lat, group = group)) +
   
   
-  geom_point(data = Coordinate_and_person_type, aes(x = Longitude, y = Latitude, color = "red")) +
+  geom_point(data = Coordinate_and_person_type, aes(x = Longitude, y = Latitude, color = "deaths" )) +
   
   coord_map()
 
@@ -71,3 +71,23 @@ female_male_deaths_by_region <- ggplot(data = region_female_male_count) +
   facet_wrap(~region)
 
 ggplotly(female_male_deaths_by_region)
+
+
+#number of female deaths
+female_deaths <- Coordinate_and_person_type %>%
+  filter(gender == "female") %>%
+  nrow()
+#number of male deaths
+male_deaths <- Coordinate_and_person_type %>%
+  filter(gender == "male") %>%
+  nrow()
+
+#total deaths
+total_deaths <- Coordinate_and_person_type %>%
+  nrow()
+
+#percent of male deaths
+male_perc <- round(male_deaths / total_deaths * 100)
+
+#percent of male deaths
+female_perc <- round(female_deaths / total_deaths * 100)
