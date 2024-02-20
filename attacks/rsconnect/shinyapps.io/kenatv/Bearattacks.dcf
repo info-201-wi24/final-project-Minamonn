@@ -5,9 +5,8 @@ account: kenatv
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11271180
-bundleId: 8273571
+bundleId: 8274051
 url: https://kenatv.shinyapps.io/Bearattacks/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: 19660-tired-brown-bear-head-clip-art.png.crdownload

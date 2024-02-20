@@ -1,13 +1,4 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    https://shiny.posit.co/
-#
 
-library(shiny)
 library(dplyr)
 library(ggplot2)
 library(shinythemes)
@@ -41,7 +32,7 @@ We envision this project as a means to humanize bear attack statistics, fosterin
     # Panel 2
     tabPanel("Attacks Across Regions", h2("Bear attacks in Each Regions of North America"), 
         sidebarPanel(img(src = 'bear.png', height = 100, width = "auto", alight = "left"),
-            selectInput("region", "Select Region:", state_counts$region, selected = state_counts$region[1], multiple = TRUE)),
+            selectInput("region", "Select Multiple Regions:", region_counts$region, selected = region_counts$region[c(1,24,4)], multiple = TRUE)),
         
         # Show a plot of the generated distribution
         mainPanel(
@@ -49,9 +40,11 @@ We envision this project as a means to humanize bear attack statistics, fosterin
           
         ),
         h2("Summary of Attacks"), 
-        p("This chart intends to answer the question of which regions are most prominent to have bear attacks since the 1900s. After analyzing the number of bear attacks in each region, it is clear that there is a pattern. Regions in the northern part 
-                                    of North America is more prominant to fatal bear attacks. Example of this is shown by
-                                    regions such as Alaska or Alberta where the most common occurances of attacks take place.", style = "font-size: 18px")),
+        p("This chart intends to answer the question of which regions are most likely to have bear attacks since the 1900s. After evaluating the data shown in the chart, a correlation was found between geographical location and the incidence of bear attacks in North America. Northern locations, particularly Alaska and Alberta, have the greatest number rate of reported bear assaults. This pattern indicates that the risk of such interactions is higher in locations with extensive wilderness and dense bear populations. The presence of grizzly and polar bears, who are noted for their size and strength, may contribute to the increased frequency of assaults in these areas.", style = "font-size: 22px"),
+
+p("In contrast, records reveal that locations further south, such as Tennessee, West Virginia, and New Jersey, had less number of bear attacks. This could be due to factors such as smaller or distinct species of bear populations, fewer expansive wilderness areas, or more developed terrain, which reduce the frequency of human-bear encounters. Bears in these places are often smaller, with black bears being the most common, and may be less likely to interact with humans", style = "font-size: 22px"),
+
+p("This trend of bear attacks demonstrates the importance of focused wildlife management and public safety education. Areas with a higher assault rate may benefit from specific risk-mitigation techniques, such as bear-proofing measures, public awareness campaigns, and resident and tourist preparedness training. Understanding the interplay between bear behavior, habitat, and human activity is crucial for developing effective policies to protect both wildlife and people.", style = "font-size: 22px")),
     
     #Panel 3 about the Lat and Long of data
     tabPanel("North America Trends", 
@@ -60,11 +53,9 @@ We envision this project as a means to humanize bear attack statistics, fosterin
                  
                ),
              h2("Summary and Purpose"),
-             p("The dot map illustrates the geographical distribution of bear attacks across North America, with a notable concentration in locations with significant wilderness areas and high bear populations. This spatial analysis complements a chronological analysis conducted from 1837 to 2018, which found that bear attacks are more common in Alaska, Alberta, British Columbia, and Montana. By combining this geographic perspective with historical data, the project aims to raise public awareness and promote safety in bear-infested areas.
- 
-The project's purpose is to educate the public about high-risk bear encounter regions, the bear species that are often involved, and how to maintain a mutually safe environment for both humans and wildlife. We aim to create an engaging narrative that acknowledges the risks posed by bear interactions while emphasizing our mutual responsibility to safeguard both human and animal communities.", style = "font-size: 22px"),
- 
-p("We hope that this project will humanize bear attack statistics, going beyond mere numbers to highlight bears and people's shared ecosystems. The overarching objective is to raise awareness and advocate for proactive, preventive ways to reduce the risk of bear attacks, thereby improving the safety of outdoor enthusiasts and sustaining bear populations.
+             p("The dot map precisely plots the latitude and longitude of bear attacks across North America, highlighting a spatial pattern that is closely associated with areas of major wilderness and bear populations. The visualization clearly shows a denser concentration of attacks along specific latitudinal and longitudinal regions. Specifically, events occur more frequently at northern latitudes.", style = "font-size: 22px"),
+p("This mapping of precise locations where bear attacks have occurred adds to the historical data collected from 1901 to 2022, demonstrating that areas such as Alaska, Alberta, British Columbia, and Montana are not only historically significant in bear attack incidences but also spatially different. Higher latitudes are associated with a higher number of bear attacks, which can be linked to the presence of larger bear species such as grizzlies and polar bears, as well as interactions with human populations who visit or live in these wilderness areas.
+The goal of combining this thorough geographical study with over a century of data is to increase public awareness of the risks that exist in these high-latitude places. It aims to inform and maybe guide the development of preventive measures and safety practices for anyone who may find themselves in bear territory. The project's ability to pinpoint the exact latitudes and longitudes of bear encounters makes it a vital tool for wildlife management and public safety programs, allowing resources and education efforts to be focused in the most affected areas.
 ", style = "font-size: 22px"),
              ),
     tabPanel("Victim Types"),
@@ -74,8 +65,10 @@ p("We hope that this project will humanize bear attack statistics, going beyond 
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-
-    output$scatterPlot <- renderPlot({
+  
+    
+  
+  output$scatterPlot <- renderPlot({
       ggplot(data = world_shape) +
         
         geom_polygon(aes(x = long, y = lat, group = group)) +
@@ -87,11 +80,11 @@ server <- function(input, output) {
     })
     
     output$barChart <- renderPlot({
-      filtered_data <- state_counts %>% filter(region %in% input$region)
+      filtered_data <- region_counts %>% filter(region %in% input$region)
       
       ggplot(filtered_data, aes(x = region, y = Number_of_attacks, fill = region)) + 
         geom_bar(stat = "identity") + labs(title = "Numer of Fatal Attacks in Each States from 1901 - 2022", x = "Selected Region", y = "Number of Attacks") + 
-        theme(axis.title = element_text(size = 16), axis.text = element_text(size = 12))+ scale_fill_brewer(palette = "Paste1") + scale_y_continuous(breaks = seq(0,40))
+        theme(axis.title = element_text(size = 16), axis.text = element_text(size = 12))+ scale_fill_brewer(palette = "Set1") + scale_y_continuous(breaks = seq(0,40))
     })
 }
 
@@ -99,3 +92,4 @@ server <- function(input, output) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
+
