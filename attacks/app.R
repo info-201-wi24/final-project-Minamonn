@@ -4,6 +4,11 @@ library(ggplot2)
 library(shinythemes)
 library(leaflet)
 library(stringr)
+library(scales)
+library(plotly)
+library(maps)
+library(mapproj)
+library(tidyverse)
 world_shape <- map_data("world")
 # Longitudinal locations for bear attacks and descriptions
 bear_coords_df <- read.csv("bear_attacks.csv")
@@ -28,7 +33,30 @@ Coordinate_and_person_type <- Coordinate_and_person_type %>% mutate(region = str
 # creates a data frame with frequency of bear attacks per region
 region_counts <- Coordinate_and_person_type %>% group_by(region) %>% summarise(Number_of_attacks = n())
 
+region_female_male_count <- Coordinate_and_person_type %>%
+  group_by(region) %>%
+  filter(gender == "female") %>% 
+  reframe(Female_deaths = n(), Coordinate_and_person_type %>%
+            group_by(Year) %>%
+            filter(gender == "male") %>% summarise(Male_deaths = n())
+  )
+female_deaths <- Coordinate_and_person_type %>%
+  filter(gender == "female") %>%
+  nrow()
+#number of male deaths
+male_deaths <- Coordinate_and_person_type %>%
+  filter(gender == "male") %>%
+  nrow()
 
+#total deaths
+total_deaths <- Coordinate_and_person_type %>%
+  nrow()
+
+#percent of male deaths
+male_perc <- round(male_deaths / total_deaths * 100)
+
+#percent of male deaths
+female_perc <- round(female_deaths / total_deaths * 100)
 # Define UI for application that draws a histogram
 ui <- fluidPage(theme = shinytheme("cerulean"),
   navbarPage(
@@ -49,7 +77,7 @@ We envision this project as a means to humanize bear attack statistics, fosterin
              h2("This investigation is conducted with key questions to help us obtain information and avoid fatal events:"),
              p(strong("· Which region has the most amount of bear attacks?", style = "font-size: 22px")),
              p(strong("· Are there specific geographic location that they attack in?", style = "font-size: 22px")),
-             p(strong("· Who are the usual targets of these attacks?", style = "font-size: 22px")),
+             p(strong("· Who are the usual targets of these attacks?", style = "font-size: 22px"))
              
              ),
             
@@ -81,12 +109,37 @@ p("This trend of bear attacks demonstrates the importance of focused wildlife ma
              p("The dot map precisely plots the latitude and longitude of bear attacks across North America, highlighting a spatial pattern that is closely associated with areas of major wilderness and bear populations. The visualization clearly shows a denser concentration of attacks along specific latitudinal and longitudinal regions. Specifically, events occur more frequently at northern latitudes.", style = "font-size: 22px"),
 p("This mapping of precise locations where bear attacks have occurred adds to the historical data collected from 1901 to 2022, demonstrating that areas such as Alaska, Alberta, British Columbia, and Montana are not only historically significant in bear attack incidences but also spatially different. Higher latitudes are associated with a higher number of bear attacks, which can be linked to the presence of larger bear species such as grizzlies and polar bears, as well as interactions with human populations who visit or live in these wilderness areas.
 The goal of combining this thorough geographical study with over a century of data is to increase public awareness of the risks that exist in these high-latitude places. It aims to inform and maybe guide the development of preventive measures and safety practices for anyone who may find themselves in bear territory. The project's ability to pinpoint the exact latitudes and longitudes of bear encounters makes it a vital tool for wildlife management and public safety programs, allowing resources and education efforts to be focused in the most affected areas.
-", style = "font-size: 22px"),
+", style = "font-size: 22px")
              ),
-    tabPanel("Victim Types"),
-    tabPanel("Findings and Takeaways")
+    tabPanel("Victim Types & Findings",
+             h2("Statistics and Victim Reports"),
+             p("Most deaths occur on the western part of North America, especially in the northwest of the continent.
+                The regions with the highest frequency of bear attacks are located in Canadian and Alaskan regions (Alaska 27, Alberta 17, British Columbia 17, Montana 17).
+                Females are most likely to die in Alaska, Alberta, British Columbia, and Montana.
+                Males are most likely to die in Alaska, Alberta, British Columbia, Montana, and Wyoming.
+                The lowest frequency of bear attacks is in the middle of North America, particularly in the United States (Arizona, Michigan, Minnesota, New Jersey, New Mexico, New York, Utah, Vermont, Washington, Yellowstone, all with only 1 death).
+                Males are much more likely to get killed.
+                10 out of 18 regions only have male deaths.
+                About 72% of deaths are male deaths.
+                About 28% of deaths are female deaths.", style = "font-size: 22px"),
+             mainPanel(
+                plotOutput("facetChart",  height = 900, width = "auto")
+                 
+    )),
+    tabPanel("Takeaways",
+             h2("Conclusion:"),
+             p("Throughout our analysis of data gathered on bear fatalities, a line can be drawn towards the complex dynamics of interactions between bears and humans. It shows the importance of informed decision-making and precautionary measures that must be taken in regions with high rates of fatalities. By acknowledging these patterns and addressing them through proactive measures, we can walk towards a more safe and environment free of bear-related fatalities. 
+
+              Region Patterns of Bear Attacks: The data compiled highlights clear regional patterns related to bear attacks and fatalities. Through our analysis, we discovered that most deaths occur in the western part of North America, particularly in the northwest region of the continent. Alaska, Alberta, British Columbia, Montana, and Wyoming are hotspots for bear-related fatalities, which shows the prevalence of bear and human interaction in this area.              
+              
+              Gender Disparities in Fatalies: Our data shows that there is a clear and notable gender disparity in bear-related fatalities. While it is shown that males and females are both at risk for encountering bear attacks, males are significantly more likely to die/encounter an attack. The data shows that out of the 18 regions recorded 10 of them recorded only male deaths, which emphasizes the vulnerability of males to such incidents.
+              
+              Frequency of Bear Attacks for Regions: The frequency of bear attacks across regions varies significantly across them. In Canadian and Alaskan regions such as Alaska, Alberta, and British Columbia, they experience the highest frequency of bear attacks, which is evident by the number of reports in these areas. Conversely, in the middle regions of North America, more significantly in the United States, there are lower frequencies of bear attacks.           
+              
+              Implications for Safety Measures:  These findings have significant implications for implementing safety measures and raising awareness in regard to bear attacks. Understanding how the distribution of bear attacks, demographic vulnerabilities, and the frequency of such patterns, can help to inform us where safety measures, should be targeted, in order to mitigate the risks and overall enhance the safety for both humans and bears.", style = "font-size: 22px"))
+            )
   )
-)
+
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
@@ -109,6 +162,16 @@ server <- function(input, output) {
       ggplot(filtered_data, aes(x = region, y = Number_of_attacks, fill = region)) + 
         geom_bar(stat = "identity") + labs(title = "Numer of Fatal Attacks in Each States from 1901 - 2022", x = "Selected Region", y = "Number of Attacks") + 
         theme(axis.title = element_text(size = 16), axis.text = element_text(size = 12))+ scale_fill_brewer(palette = "Set1") + scale_y_continuous(breaks = seq(0,40))
+    })
+
+    output$facetChart <- renderPlot({
+      female_male_deaths_by_region <- ggplot(data = region_female_male_count) +
+      geom_col(mapping = aes(Year, Female_deaths, fill = "Female")) +
+      geom_col(mapping = aes(Year, Male_deaths, fill = "Male")) +
+      labs(title = "Female and Males Bear Deaths by Year", x = "Year", y = "Number of Deaths", fill = "Gender") +
+      scale_x_continuous(breaks = seq(1901, 2018, 39)) +
+      scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+      facet_wrap(~region) 
     })
 }
 
