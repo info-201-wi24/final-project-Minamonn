@@ -77,15 +77,11 @@ p("We hope that this project will humanize bear attack statistics, going beyond 
                 Males are much more likely to get killed.
                 10 out of 18 regions only have male deaths.
                 About 72% of deaths are male deaths.
-                About 28% of deaths are female deaths., style = "font-size: 18px")),
+                About 28% of deaths are female deaths.," style = "font-size: 18px"),
              mainPanel(
-               img(src = 'femalemalebears.png', height = 650, width = "auto", align = "left")
-             )
-            
-            
-            
-            
-            ),
+                plotOutput("facetChart",  height = 900, width = "auto")
+                 
+               )),
     tabPanel("Takeaways")
   )
 )
@@ -110,6 +106,16 @@ server <- function(input, output) {
       ggplot(filtered_data, aes(x = region, y = Number_of_attacks, fill = region)) + 
         geom_bar(stat = "identity") + labs(title = "Numer of Fatal Attacks in Each States from 1901 - 2022", x = "Selected Region", y = "Number of Attacks") + 
         theme(axis.title = element_text(size = 16), axis.text = element_text(size = 12))+ scale_fill_brewer(palette = "Paste1") + scale_y_continuous(breaks = seq(0,40))
+    })
+
+    output$facetChart <- renderPlot({
+      female_male_deaths_by_region <- ggplot(data = region_female_male_count) +
+      geom_col(mapping = aes(Year, Female_deaths, fill = "Female")) +
+      geom_col(mapping = aes(Year, Male_deaths, fill = "Male")) +
+      labs(title = "Female and Males Bear Deaths by Year", x = "Year", y = "Number of Deaths", fill = "Gender") +
+      scale_x_continuous(breaks = seq(1901, 2018, 39)) +
+      scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+      facet_wrap(~region) 
     })
 }
 
