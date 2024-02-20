@@ -71,8 +71,7 @@ female_male_deaths_by_region <- ggplot(data = region_female_male_count) +
   geom_col(mapping = aes(Year, Male_deaths, fill = "Male")) +
   labs(title = "Female and Males Bear Deaths by Year", x = "Year", y = "Number of Deaths", fill = "Gender") +
   scale_x_continuous(breaks = seq(1901, 2018, 39)) +
-  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
-  facet_wrap(~region)
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale()))
 
 ggplotly(female_male_deaths_by_region)
 #>>>>>>> fa8e931b8fdaa99ee0550f45923dd2947527fbef
