@@ -55,3 +55,4 @@ ggplot(data = world_shape) +
   
   coord_map()
 
+write.csv(Coordinate_and_person_type, file = "Unified and clean CSV dataset File.csv")
