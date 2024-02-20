@@ -70,14 +70,14 @@ p("We hope that this project will humanize bear attack statistics, going beyond 
     tabPanel("Victim Types & Findings"
              h2 ("Statistics and Victim Reports"),
              p("Most deaths occur on the western part of North America, especially in the northwest of the continent.
-The regions with the highest frequency of bear attacks are located in Canadian and Alaskan regions (Alaska 27, Alberta 17, British Columbia 17, Montana 17).
-Females are most likely to die in Alaska, Alberta, British Columbia, and Montana.
-Males are most likely to die in Alaska, Alberta, British Columbia, Montana, and Wyoming.
-The lowest frequency of bear attacks is in the middle of North America, particularly in the United States (Arizona, Michigan, Minnesota, New Jersey, New Mexico, New York, Utah, Vermont, Washington, Yellowstone, all with only 1 death).
-Males are much more likely to get killed.
-10 out of 18 regions only have male deaths.
-About 72% of deaths are male deaths.
-About 28% of deaths are female deaths., style = "font-size: 18px"),
+                The regions with the highest frequency of bear attacks are located in Canadian and Alaskan regions (Alaska 27, Alberta 17, British Columbia 17, Montana 17).
+                Females are most likely to die in Alaska, Alberta, British Columbia, and Montana.
+                Males are most likely to die in Alaska, Alberta, British Columbia, Montana, and Wyoming.
+                The lowest frequency of bear attacks is in the middle of North America, particularly in the United States (Arizona, Michigan, Minnesota, New Jersey, New Mexico, New York, Utah, Vermont, Washington, Yellowstone, all with only 1 death).
+                Males are much more likely to get killed.
+                10 out of 18 regions only have male deaths.
+                About 72% of deaths are male deaths.
+                About 28% of deaths are female deaths., style = "font-size: 18px")),
              mainPanel(
                img(src = 'femalemalebears.png', height = 650, width = "auto", align = "left")
              )
