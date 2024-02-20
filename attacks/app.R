@@ -75,9 +75,9 @@ We envision this project as a means to humanize bear attack statistics, fosterin
                img(src = 'brownbear.jpg', height = 650, width = "auto", align = "left")
              ),
              h2("This investigation is conducted with key questions to help us obtain information and avoid fatal events:"),
-             p(strong("· Which region has the most amount of bear attacks?", style = "font-size: 22px")),
-             p(strong("· Are there specific geographic location that they attack in?", style = "font-size: 22px")),
-             p(strong("· Who are the usual targets of these attacks?", style = "font-size: 22px"))
+             p(strong("· Which region has the most amount of bear attacks?", style = "font-size: 21px")),
+             p(strong("· Are there specific geographic location that they attack in?", style = "font-size: 21px")),
+             p(strong("· Who are the usual targets of these attacks?", style = "font-size: 21px"))
              
              ),
             
