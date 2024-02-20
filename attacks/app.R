@@ -114,7 +114,7 @@ The goal of combining this thorough geographical study with over a century of da
                   tabPanel("Victim Types & Findings",
                            h2("Statistics and Victim Reports"),
                            mainPanel(
-                             plotOutput("facetChart",  height = "auto", width = "auto")
+                             plotOutput("facetChart",  height = 700, width = "auto")
                              
                            ),
                            p("Most deaths occur on the western part of North America, especially in the northwest of the continent.
