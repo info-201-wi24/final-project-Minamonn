@@ -9,6 +9,7 @@ library(plotly)
 library(maps)
 library(mapproj)
 library(tidyverse)
+
 world_shape <- map_data("world")
 # Longitudinal locations for bear attacks and descriptions
 bear_coords_df <- read.csv("bear_attacks.csv")
@@ -89,7 +90,7 @@ We envision this project as a means to humanize bear attack statistics, fosterin
                            
                            # Show a plot of the generated distribution
                            mainPanel(
-                             plotOutput("barChart")
+                             plotlyOutput("barChart")
                              
                            ),
                            h2("Summary of Attacks"), 
@@ -102,7 +103,7 @@ We envision this project as a means to humanize bear attack statistics, fosterin
                   #Panel 3 about the Lat and Long of data
                   tabPanel("North America Trends", 
                            mainPanel(
-                             plotOutput("scatterPlot",  height = 900, width = "auto")
+                             plotlyOutput("scatterPlot",  height = "900px", width = "100%")
                              
                            ),
                            h2("Summary and Purpose"),
@@ -146,24 +147,26 @@ The goal of combining this thorough geographical study with over a century of da
 server <- function(input, output) {
   
   
-  output$scatterPlot <- renderPlot({
-    ggplot(data = world_shape) +
+  output$scatterPlot <- renderPlotly({
+    ggplotly(ggplot(data = world_shape) +
       
       geom_polygon(aes(x = long, y = lat, group = group)) +
       
       
-      geom_point(data = Coordinate_and_person_type, aes(x = Longitude, y = Latitude, color = "red")) +
+      geom_point(data = Coordinate_and_person_type, aes(x = Longitude, y = Latitude, color = "red", text = paste0(region, ", Latitude: ", Latitude, ", Longitude: ", Longitude))) +
       
-      coord_fixed(ratio = 1.3 ) + xlim(-169,-50)+ ylim(5,83)+labs(title = "Latitude and Longitude of attacks", x = "Longitude", y = "Latitude") + theme_minimal()
-  })
+      coord_fixed(ratio = 1.3 ) + xlim(-169,-50)+ ylim(5,83)+labs(title = "Latitude and Longitude of attacks", x = "Longitude", y = "Latitude", color = "Attack Locations") + theme_minimal(), tooltip = "text"
   
-  output$barChart <- renderPlot({
+   ) })
+  
+  output$barChart <- renderPlotly({
     filtered_data <- region_counts %>% filter(region %in% input$region)
     
-    ggplot(filtered_data, aes(x = region, y = Number_of_attacks, fill = region)) + 
+    ggplotly(ggplot(filtered_data, aes(x = region, y = Number_of_attacks, fill = region, text = paste(region, "has", Number_of_attacks, "attacks"))) + 
       geom_bar(stat = "identity") + labs(title = "Numer of Fatal Attacks in Each States from 1901 - 2022", x = "Selected Region", y = "Number of Attacks") + 
-      theme(axis.title = element_text(size = 16), axis.text = element_text(size = 12))+ scale_fill_brewer(palette = "Set1") + scale_y_continuous(breaks = seq(0,40))
-  })
+      theme(axis.title = element_text(size = 16), axis.text = element_text(size = 10))+ scale_fill_brewer(palette = "Set1") + scale_y_continuous(breaks = seq(0,40)), tooltip = "text"
+  
+   ) })
   
   output$facetChart <- renderPlot({
       ggplot(data = region_female_male_count) +
