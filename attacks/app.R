@@ -151,7 +151,7 @@ server <- function(input, output) {
     ggplotly(ggplot(data = world_shape) +
       
       geom_polygon(aes(x = long, y = lat, group = group)) +
-      
+       
       
       geom_point(data = Coordinate_and_person_type, aes(x = Longitude, y = Latitude, color = "red", text = paste0(region, ", Latitude: ", Latitude, ", Longitude: ", Longitude))) +
       
