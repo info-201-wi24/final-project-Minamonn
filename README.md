@@ -39,7 +39,7 @@ Frequency of Bear Attacks for Regions: The frequency of bear attacks across regi
 
 Implications for Safety Measures:  These findings have significant implications for implementing safety measures and raising awareness in regard to bear attacks. Understanding how the distribution of bear attacks, demographic vulnerabilities, and the frequency of such patterns, can help to inform us where safety measures, should be targeted, in order to mitigate the risks and overall enhance the safety for both humans and bears.
 
-Works Cited
+**Works Cited**
 
 GoldNuss. (2022, June 2). Fatal bear attacks North America. Kaggle. 
                           https://www.kaggle.com/datasets/danela/fatal-bear-attacks-north-america 
