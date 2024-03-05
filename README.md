@@ -38,3 +38,11 @@ Gender Disparities in Fatalies: Our data shows that there is a clear and notable
 Frequency of Bear Attacks for Regions: The frequency of bear attacks across regions varies significantly across them. In Canadian and Alaskan regions such as Alaska, Alberta, and British Columbia, they experience the highest frequency of bear attacks, which is evident by the number of reports in these areas. Conversely, in the middle regions of North America, more significantly in the United States, there are lower frequencies of bear attacks.           
 
 Implications for Safety Measures:  These findings have significant implications for implementing safety measures and raising awareness in regard to bear attacks. Understanding how the distribution of bear attacks, demographic vulnerabilities, and the frequency of such patterns, can help to inform us where safety measures, should be targeted, in order to mitigate the risks and overall enhance the safety for both humans and bears.
+
+Works Cited
+
+GoldNuss. (2022, June 2). Fatal bear attacks North America. Kaggle. 
+                          https://www.kaggle.com/datasets/danela/fatal-bear-attacks-north-america 
+
+Kriebel, A. (2019, May 19). 2019/W21: When are you most likely to be killed by a bear? 
+https://www.kaggle.com/datasets/danela/fatal-bear-attacks-north-america 
