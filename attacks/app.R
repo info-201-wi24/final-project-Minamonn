@@ -66,14 +66,23 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                   "Bear Attacks in North America",
                   
                   tabPanel("Home", 
-                           h2 ("Weelcome to statistical Data exploring Bear attacks"),
+                           h2 ("Welcome to statistical Data exploring Bear attacks"),
                            p("Through thorough analysis of historical bear attack data, we aim to pinpoint the locations where attacks are most likely, informing the public of potential dangers. Identifying the bear species with the highest
              fatality rates allows for targeted warnings, mitigating the risk of future incidents. This initiative underscores a pressing need to balance human safety with wildlife conservation, particularly concerning bear encounters that can result in severe consequences for individuals and communities alike. The narratives of those affected by bear attacks underscore the urgency of our mission. By contributing to this cause, we seek not only to prevent future
              tragedies but also to honor the memories of those impacted. 
  
 We envision this project as a means to humanize bear attack statistics, fostering empathy and understanding of the risks involved. We aim to educate on the necessity of caution in bear habitats and inspire action toward safer human-bear coexistence. Our project is a step towards a future where humans and bears coexist more safely, emphasizing empowerment and preparedness for those navigating bear territories.", style = "font-size: 18px"),
+                           
+                           tags$h3("Sources:"),
+                           tags$a(href="https://www.kaggle.com/datasets/danela/fatal-bear-attacks-north-america", 
+                                  "Fatal Bear Attacks North America | Kaggle"),
+                           
+                           tags$a(href="https://data.world/makeovermonday/2019w21", 
+                                  "When are you most likely to be killed by a bear? - dataset by makeovermonday | data.world"),
+                           
+                           
                            mainPanel(
-                             img(src = 'brownbear.jpg', height = 650, width = "auto", align = "left")
+                             img(src = 'brownbear.jpg', height = 500, width = "auto", align = "left")
                            ),
                            h2("This investigation is conducted with key questions to help us obtain information and avoid fatal events:"),
                            p(strong("· Which region has the most amount of bear attacks?", style = "font-size: 21px")),
@@ -115,7 +124,7 @@ The goal of combining this thorough geographical study with over a century of da
                   tabPanel("Victim Types & Findings",
                            h2("Statistics and Victim Reports"),
                            mainPanel(
-                             plotOutput("facetChart",  height = 700, width = "auto")
+                             plotlyOutput("facetChart",  height = 700, width = "auto")
                              
                            ),
                            p("Most deaths occur on the western part of North America, especially in the northwest of the continent.
@@ -127,7 +136,7 @@ The goal of combining this thorough geographical study with over a century of da
                 10 out of 18 regions only have male deaths.
                 About 72% of deaths are male deaths.
                 About 28% of deaths are female deaths.", style = "font-size: 22px")
-                           ),
+                  ),
                   tabPanel("Takeaways",
                            h2("Conclusion:"),
                            p("Throughout our analysis of data gathered on bear fatalities, a line can be drawn towards the complex dynamics of interactions between bears and humans. It shows the importance of informed decision-making and precautionary measures that must be taken in regions with high rates of fatalities. By acknowledging these patterns and addressing them through proactive measures, we can walk towards a more safe and environment free of bear-related fatalities.", style = "font-size: 22px"),
@@ -149,33 +158,33 @@ server <- function(input, output) {
   
   output$scatterPlot <- renderPlotly({
     ggplotly(ggplot(data = world_shape) +
-      
-      geom_polygon(aes(x = long, y = lat, group = group)) +
-       
-      
-      geom_point(data = Coordinate_and_person_type, aes(x = Longitude, y = Latitude, color = "red", text = paste0(region, ", Latitude: ", Latitude, ", Longitude: ", Longitude))) +
-      
-      coord_fixed(ratio = 1.3 ) + xlim(-169,-50)+ ylim(5,83)+labs(title = "Latitude and Longitude of attacks", x = "Longitude", y = "Latitude", color = "Attack Locations") + theme_minimal(), tooltip = "text"
-  
-   ) })
+               
+               geom_polygon(aes(x = long, y = lat, group = group)) +
+               
+               
+               geom_point(data = Coordinate_and_person_type, aes(x = Longitude, y = Latitude, color = "Victims", text = paste0(region, ", Latitude: ", Latitude, ", Longitude: ", Longitude))) +
+               
+               coord_fixed(ratio = 1.3 ) + xlim(-169,-50)+ ylim(5,83)+labs(title = "Latitude and Longitude of attacks", x = "Longitude", y = "Latitude", color = "Attack Locations") + theme_minimal(), tooltip = "text"
+             
+    ) })
   
   output$barChart <- renderPlotly({
     filtered_data <- region_counts %>% filter(region %in% input$region)
     
     ggplotly(ggplot(filtered_data, aes(x = region, y = Number_of_attacks, fill = region, text = paste(region, "has", Number_of_attacks, "attacks"))) + 
-      geom_bar(stat = "identity") + labs(title = "Numer of Fatal Attacks in Each States from 1901 - 2022", x = "Selected Region", y = "Number of Attacks") + 
-      theme(axis.title = element_text(size = 16), axis.text = element_text(size = 10))+ scale_fill_brewer(palette = "Set1") + scale_y_continuous(breaks = seq(0,40)), tooltip = "text"
+               geom_bar(stat = "identity") + labs(title = "Numer of Fatal Attacks in Each States from 1901 - 2022", x = "Selected Region", y = "Number of Attacks") + 
+               theme(axis.title = element_text(size = 16), axis.text = element_text(size = 10))+ scale_fill_brewer(palette = "Set1") + scale_y_continuous(breaks = seq(0,40)), tooltip = "text"
+             
+    ) })
   
-   ) })
-  
-  output$facetChart <- renderPlot({
-      ggplot(data = region_female_male_count) +
+  output$facetChart <- renderPlotly({
+    ggplotly(ggplot(data = region_female_male_count) +
       geom_col(mapping = aes(Year, Female_deaths, fill = "Female")) +
       geom_col(mapping = aes(Year, Male_deaths, fill = "Male")) +
       labs(title = "Female and Males Bear Deaths by Year", x = "Year", y = "Number of Deaths", fill = "Gender") +
       scale_x_continuous(breaks = seq(1901, 2018, 39)) +
       scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
-      facet_wrap(~region)
+      facet_wrap(~region))
   })
 }
 
