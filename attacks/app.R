@@ -76,7 +76,7 @@ We envision this project as a means to humanize bear attack statistics, fosterin
                            tags$h3("Sources:"),
                            tags$a(href="https://www.kaggle.com/datasets/danela/fatal-bear-attacks-north-america", 
                                   "Fatal Bear Attacks North America | Kaggle"),
-                           
+                           tags$br(""),
                            tags$a(href="https://data.world/makeovermonday/2019w21", 
                                   "When are you most likely to be killed by a bear? - dataset by makeovermonday | data.world"),
                            
@@ -179,12 +179,12 @@ server <- function(input, output) {
   
   output$facetChart <- renderPlotly({
     ggplotly(ggplot(data = region_female_male_count) +
-      geom_col(mapping = aes(Year, Female_deaths, fill = "Female")) +
-      geom_col(mapping = aes(Year, Male_deaths, fill = "Male")) +
-      labs(title = "Female and Males Bear Deaths by Year", x = "Year", y = "Number of Deaths", fill = "Gender") +
-      scale_x_continuous(breaks = seq(1901, 2018, 39)) +
-      scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
-      facet_wrap(~region))
+               geom_col(mapping = aes(Year, Female_deaths, fill = "Female")) +
+               geom_col(mapping = aes(Year, Male_deaths, fill = "Male")) +
+               labs(title = "Female and Males Bear Deaths by Year", x = "Year", y = "Number of Deaths", fill = "Gender") +
+               scale_x_continuous(breaks = seq(1901, 2018, 39)) +
+               scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+               facet_wrap(~region))
   })
 }
 
