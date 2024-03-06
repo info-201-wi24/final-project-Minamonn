@@ -76,13 +76,13 @@ We envision this project as a means to humanize bear attack statistics, fosterin
                            tags$h3("Sources:"),
                            tags$a(href="https://www.kaggle.com/datasets/danela/fatal-bear-attacks-north-america", 
                                   "Fatal Bear Attacks North America | Kaggle"),
-                           tags$br(""),
-                           tags$a(href="https://data.world/makeovermonday/2019w21", 
-                                  "When are you most likely to be killed by a bear? - dataset by makeovermonday | data.world"),
+                           
+                           p(tags$a(href="https://data.world/makeovermonday/2019w21", 
+                                  "When are you most likely to be killed by a bear? - dataset by makeovermonday | data.world")),
                            
                            
                            mainPanel(
-                             img(src = 'brownbear.jpg', height = 500, width = "auto", align = "left")
+                             img(src = 'brownbear.jpg', height = "auto", width = 1200, align = "left")
                            ),
                            h2("This investigation is conducted with key questions to help us obtain information and avoid fatal events:"),
                            p(strong("· Which region has the most amount of bear attacks?", style = "font-size: 21px")),
